@@ -31,13 +31,12 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        $data = DataIot::latest()->get()->take(1);
 
         return array_merge(parent::share($request), [
             'auth' => [
                 'user' => $request->user(),
             ],
-            'data' => $data[0],
+
             'ziggy' => function () use ($request) {
                 return array_merge((new Ziggy)->toArray(), [
                     'location' => $request->url(),
