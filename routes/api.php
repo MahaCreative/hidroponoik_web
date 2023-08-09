@@ -25,7 +25,6 @@ Route::post('postData', function(Request $request){
     $data = DataIot::findOrFail(1);
     $data->update([
         'data_ph' => $request->dataPH,
-        'dinamo' => $request->statusDinamo1
     ]);
     broadcast(new GetMessageMQTTEvent($data))->toOthers();
 
