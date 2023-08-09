@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('getData', function(){
     $data = DataIot::first();
-    dd($data);
+    return $data;
 })->name('getData');
 
 Route::post('postData', function(Request $request){
