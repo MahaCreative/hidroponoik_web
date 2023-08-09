@@ -5,7 +5,8 @@ import BarWarnaPH from "@/Pages/Components/BarPH";
 import moment from "moment-timezone";
 
 export default function Home(props) {
-    const { data } = usePage().props;
+    const [data, setData] = useState(null);
+
     const [currentTime, setCurrentTime] = useState(
         moment().tz("Asia/Jakarta").format("HH:mm:ss")
     );
@@ -13,10 +14,11 @@ export default function Home(props) {
     useEffect(() => {
         const channel = window.Echo.channel("mqtt");
         const listener = channel.listen(".mqtt.resive", (e) => {
-            router.reload({
-                preserveState: true,
-                preserveScroll: true,
-            });
+            console.log("====================================");
+            console.log(e);
+            console.log("====================================");
+            // Memasukkan data dari e ke dalam state data
+            setData(e);
         });
 
         // Unsubscribe dari channel dan listener saat komponen Home akan di-unmount
@@ -35,6 +37,7 @@ export default function Home(props) {
 
     const DinamoHandler = (e) => {
         let status = e;
+
         router.post(route("publish"), { data: status });
     };
 
@@ -72,29 +75,32 @@ export default function Home(props) {
                                     <button
                                         onClick={() =>
                                             DinamoHandler(
-                                                data.dinamo == "on"
-                                                    ? "off"
-                                                    : "on"
+                                                data.message != null &&
+                                                    data.message.statusDinamo1
                                             )
                                         }
                                         className={clsx(
-                                            data && data.dinamo === "on"
+                                            data.message != null &&
+                                                data.message.statusDinamo1 ===
+                                                    "on"
                                                 ? "bg-green-500"
                                                 : "bg-red-500",
                                             "uppercase py-2 px-4 rounded-md shadow-sm shadow-gray-300/30 text-white"
                                         )}
                                     >
-                                        {data && data.dinamo === "on"
-                                            ? "Off Dinamo"
-                                            : "On Dinamo"}
+                                        {data.message != null &&
+                                        data.message.statusDinamo1 === "on"
+                                            ? "Off Dinamo 1"
+                                            : "On Dinamo 1"}
                                     </button>
                                 </div>
 
                                 <div>
-                                    {data && (
-                                        <BarWarnaPH phValue={data.data_ph} />
+                                    {data.message != null && (
+                                        <BarWarnaPH
+                                            phValue={data.message.dataPH}
+                                        />
                                     )}
-                                    <p className="text-white">{data.dinamo}</p>
                                 </div>
                                 <div className="flex flex-col gap-4 justify-between items-center gap-x-4">
                                     <div className="w-full flex items-center justify-between  bg-slate-800 rounded-md shadow-sm shadow-slate-300/50 py-4 px-8">
@@ -103,7 +109,8 @@ export default function Home(props) {
                                         </h3>
 
                                         <h3 className="text-4xl text-blue-500 font-bold">
-                                            {data && data.dataSuhu}
+                                            {data.message != null &&
+                                                data.message.dataSuhu}
                                         </h3>
                                     </div>
                                     <div className="w-full flex items-center justify-between  bg-slate-800 rounded-md shadow-sm shadow-slate-300/50 py-4 px-8">
@@ -111,7 +118,8 @@ export default function Home(props) {
                                             PH AIR
                                         </h3>
                                         <h3 className="text-4xl text-blue-500 font-bold">
-                                            {data && data.data_ph}
+                                            {data.message != null &&
+                                                data.message.dataPH}
                                         </h3>
                                     </div>
                                 </div>
