@@ -27,5 +27,5 @@ Route::post('postData', function(Request $request){
         'data_ph' => $request->dataPH,
     ]);
     broadcast(new GetMessageMQTTEvent($data))->toOthers();
-
+    return $data;
 });
