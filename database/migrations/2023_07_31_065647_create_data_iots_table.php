@@ -13,10 +13,8 @@ return new class extends Migration
     {
         Schema::create('data_iots', function (Blueprint $table) {
             $table->id();
-            $table->string('dinamo1')->default('off');
-            $table->string('dinamo2')->default('off');
-            $table->string('data_suhu');
             $table->string('data_ph');
+            $table->string('dinamo');
             $table->timestamps();
         });
     }

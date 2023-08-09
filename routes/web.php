@@ -24,7 +24,9 @@ Route::get('', function(){
     return inertia('Home');
 });
 Route::post('publish', function(Request $request){
+    $data = DataIot::findOrFail(1);
 
-    MQTT::publish('ESP/IOT', $request->data == "off" ? "on" : "off");
+    $data->update(['dinamo' => $request->data]);
+    MQTT::publish('ESP/IOT', $request->data);
     return redirect()->back();
 })->name('publish');

@@ -1,5 +1,7 @@
 <?php
 
+use App\Events\GetMessageMQTTEvent;
+use App\Models\DataIot;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +16,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::get('getData', function(){
+    $data = DataIot::first();
+    dd($data);
+})->name('getData');
+
+Route::post('postData', function(Request $request){
+    $data = DataIot::findOrFail(1);
+    $data->update([
+        'data_ph' => $request->dataPH,
+        'dinamo' => $request->statusDinamo1
+    ]);
+    broadcast(new GetMessageMQTTEvent($data))->toOthers();
+
 });
