@@ -104,12 +104,6 @@ export default function Home(props) {
                                 </div>
                                 <div className="flex flex-col gap-4 justify-between items-center gap-x-4">
                                     <div className="w-full flex items-center justify-between  bg-slate-800 rounded-md shadow-sm shadow-slate-300/50 py-4 px-8">
-                                        <h3 className="text-4xl text-blue-500 font-bold">
-                                            {data.message != null &&
-                                                data.message.dataSuhu}
-                                        </h3>
-                                    </div>
-                                    <div className="w-full flex items-center justify-between  bg-slate-800 rounded-md shadow-sm shadow-slate-300/50 py-4 px-8">
                                         <h3 className="text-2xl text-blue-500 font-bold">
                                             PH AIR
                                         </h3>
