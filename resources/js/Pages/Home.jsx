@@ -120,12 +120,6 @@ export default function Home(props) {
                     </div>
                 </div>
             </div>
-
-            <div className="absolute bottom-2 left-0 w-full ">
-                <p className="text-blue-600 text-center">
-                    Development By : #####
-                </p>
-            </div>
         </div>
     );
 }
